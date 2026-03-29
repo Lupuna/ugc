@@ -40,7 +40,7 @@ class QuizDetailView(APIView):
             question = base_qs.filter(quiz=quiz).order_by("order").first()
             if question is None:
                 return Response(
-                    {"error": "В опросе нет вопросов."},
+                    {"error": "This quiz has no questions."},
                     status=status.HTTP_404_NOT_FOUND,
                 )
 
