@@ -91,7 +91,7 @@ class AuthorQuizListCreateView(generics.ListCreateAPIView):
         return QuizListSerializer
 
     def get_queryset(self):
-        return Quiz.objects.filter(author_id=self.kwargs["user_id"])
+        return Quiz.objects.select_related("author")filter(author_id=self.kwargs["user_id"])
 
     def perform_create(self, serializer):
         serializer.save(author_id=self.kwargs["user_id"])
