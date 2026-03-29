@@ -32,14 +32,10 @@ class QuizDetailView(APIView):
         total_questions = Question.objects.filter(quiz=quiz).count()
 
         question_id = request.query_params.get("question_id")
-        order = request.query_params.get("order")
-
         base_qs = Question.objects.prefetch_related("questionvariant_set")
 
         if question_id:
             question = get_object_or_404(base_qs, id=question_id, quiz=quiz)
-        elif order:
-            question = get_object_or_404(base_qs, quiz=quiz, order=order)
         else:
             question = base_qs.filter(quiz=quiz).order_by("order").first()
             if question is None:
