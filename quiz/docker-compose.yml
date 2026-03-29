@@ -1,0 +1,28 @@
+services:
+  app:
+    build: .
+    container_name: app
+    depends_on:
+      - database
+    environment:
+      - DB_HOST=${DB_HOST:-database}
+      - POSTGRES_DB=${DB:-dbname}
+      - POSTGRES_USER=${DB_USER:-dbuser}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-password}
+    volumes:
+      - ./src:/app/src
+    ports:
+      - "${PORT:-8000}:8000"
+
+  database:
+    image: postgres:14.6-alpine
+    environment:
+      - POSTGRES_DB=${DB:-dbname}
+      - POSTGRES_USER=${DB_USER:-dbuser}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-password}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
+
